@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrapper">
+
+        <!-- Header -->
+        <div class="container">
+            <header class="header">
+                <div class="header-input-body">
+                    <select class="header-select" name="" id="typeSel">
+                        <!-- <option value="">Выберите раздел</option>
+                        <option value="1">Каша</option>
+                        <option value="2">Мясо</option>
+                        <option value="3">Молочка</option>
+                        <option value="4">Сладкое</option> -->
+                    </select>
+                    <select class="header-select" name="" id="foodSel">
+                        <!-- <option value="">Говядина</option>
+                        <option value="">Свинина</option> -->
+                    </select>
+                    <input class="header-input" type="text" id="weightInp" placeholder="Введите вес">
+                </div>
+                <div class="header-main-body">
+                    <div class="space"></div>
+                    <button class="add-btn" id="addBtn">Добавить в рацион</button>
+                    <div class="final-sum">
+                        <span >
+                            Итог: 
+                        </span>
+                        <span id="output">
+                            добавьте продукты
+                        </span>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <div class="container">
+            <section class="table-section">
+                <!-- table header -->
+                <table class="table" style="width:100%" id="table">
+                    <thead>
+                        <th>Тип</th>
+                        <th>Наименование</th>
+                        <th>Вес</th>
+                    </thead>
+
+                    <template id="row-template">
+                        <tr>
+                            <td id="type">Тип</td>
+                            <td id="name">Наименование</th>
+                            <td>
+                                <span id="weight">Вес</span> 
+                                <span id="energy">(кКал)</span>
+                            </td>
+                        </tr>
+                    </template>
+                    
+                </table>
+
+                
+                <!-- <div class="row-body">
+                    <span>Тип</span>
+                    <span>Наиминование</span>
+                    <span>Вес (в граммах)</span>
+                    <span>
+                        Убрать
+                    <span>
+                </div> -->
+
+                <!-- row template -->
+                <template id="rowTml">
+                    <div class="row-body">
+                        <span>TYPE</span>
+                        <span>NAME</span>
+                        <span id="weight">WEIGHT</span>
+                        <span>
+                            Убрать
+                        <span>
+                    </div>
+                </template>
+
+                <!-- table rows -->
+            </section>
+        </div>
+
+    </div>
+</body>
+<script src="/assets/js/script.js"></script>
+</html>
