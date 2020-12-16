@@ -16,6 +16,8 @@ body {
 
 :root {
     --inp-border-color: #bebebe;
+    --tr-hover-color: #80b7ff56;
+    --tr-active-color: #80b7ffd3;
     --main-color: #1a73e8;
     --disable-color: #484848;
     --hover-color: #1464ce;
@@ -188,6 +190,8 @@ body {
 
     padding: .5rem 1rem;
     text-align: center;
+
+    transition: .2s ease-in-out;
 }
 
 .table td:not(:last-child) {
@@ -196,4 +200,12 @@ body {
 
 .table tr {
     border-bottom: 1px solid var(--inp-border-color);
+    cursor: pointer;
+}
+
+.table tr:hover td{
+    background-color: var(--tr-hover-color);
+}
+.table tr:active td{
+    background-color: var(--tr-active-color);
 }

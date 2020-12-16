@@ -150,3 +150,23 @@ addBtn.addEventListener('click', (event) => {
 
     addBtn.disabled = true;
 })
+
+table.addEventListener('click', (event) => {
+    const currentRow = event.target.closest('tr');
+
+    if(currentRow) {
+        const regExp = /\d+/;
+
+        let sum = parseInt(output.innerText);
+        const en = currentRow.querySelector('#energy').innerText;
+        
+        sum -= parseInt(regExp.exec(en))
+        if(sum <= 0) {
+            output.innerText = "добавьте продукты";
+        } else {
+            output.innerText = sum + ' кКал';
+        }
+
+        table.removeChild(currentRow);
+    }
+});
