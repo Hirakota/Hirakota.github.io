@@ -18,6 +18,22 @@ const foodList = [
             {
                 name: "Рисовая каша",
                 value: 79
+            },
+            {
+                name: "Кукурузные хлопья",
+                value: 372
+            },
+            {
+                name: "Овсяные хлопья",
+                value: 358
+            },
+            {
+                name: "Перловая каша",
+                value: 102
+            },
+            {
+                name: "Пшенная каша",
+                value: 92
             }
         ]
     },
@@ -30,6 +46,34 @@ const foodList = [
                 value: 22
             },
             {
+                name: "Бобы",
+                value: 59
+            },
+            {
+                name: "Брюква",
+                value: 38
+            },
+            {
+                name: "Горошек зеленый",
+                value: 75
+            },
+            {
+                name: "Кабачки",
+                value: 30
+            },
+            {
+                name: "Капуста",
+                value: 32
+            },
+            {
+                name: "Картофель вареный",
+                value: 80
+            },
+            {
+                name: "Картофель жареный",
+                value: 198
+            },
+            {
                 name: "Морковь",
                 value: 29
             },
@@ -40,10 +84,73 @@ const foodList = [
             {
                 name: "Фасоль",
                 value: 36
+            },
+        ]
+    },
+    //* 2 Мясо и птица
+    {
+        type: "Мясо, птица",
+        list: [
+            {
+                name: "Баранина",
+                value: 201
+            },
+            {
+                name: "Говядина",
+                value: 191
+            },
+            {
+                name: "Говяжья Печень",
+                value: 100
+            },
+            {
+                name: "Говяжий Язык",
+                value: 160
+            },
+            {
+                name: "Кролик",
+                value: 197
+            },
+            {
+                name: "Свинина нежирная",
+                value: 318
+            },
+            {
+                name: "Свинина жирная",
+                value: 484
+            },
+            {
+                name: "Свиная печень",
+                value: 105
+            },
+            {
+                name: "Телятина",
+                value: 91
+            },
+            {
+                name: "Индейка",
+                value: 192
+            },
+            {
+                name: "Курица",
+                value: 161
+            },
+            {
+                name: "Утка",
+                value: 348
             }
         ]
     },
-    //3
+    //* 3 Рыба
+    {
+        type: "Рыба и морепродукты",
+        list: [
+            {
+                name: "Кальмар",
+                value: 77
+            },
+        ]
+    },
 ]
     
 //* variables
@@ -159,7 +266,7 @@ table.addEventListener('click', (event) => {
 
         let sum = parseInt(output.innerText);
         const en = currentRow.querySelector('#energy').innerText;
-        
+
         sum -= parseInt(regExp.exec(en))
         if(sum <= 0) {
             output.innerText = "добавьте продукты";

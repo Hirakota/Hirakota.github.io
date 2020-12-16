@@ -17,15 +17,10 @@
             <header class="header">
                 <div class="header-input-body">
                     <select class="header-select" name="" id="typeSel">
-                        <!-- <option value="">Выберите раздел</option>
-                        <option value="1">Каша</option>
-                        <option value="2">Мясо</option>
-                        <option value="3">Молочка</option>
-                        <option value="4">Сладкое</option> -->
+                        <!-- Types -->
                     </select>
                     <select class="header-select" name="" id="foodSel">
-                        <!-- <option value="">Говядина</option>
-                        <option value="">Свинина</option> -->
+                        <!-- Element of type-->
                     </select>
                     <input class="header-input" type="text" id="weightInp" placeholder="Введите вес">
                 </div>
@@ -33,7 +28,7 @@
                     <div class="space"></div>
                     <button class="add-btn" id="addBtn">Добавить в рацион</button>
                     <div class="final-sum">
-                        <span >
+                        <span>
                             Итог: 
                         </span>
                         <span id="output">
@@ -46,8 +41,8 @@
 
         <div class="container">
             <section class="table-section">
-                <!-- table header -->
                 <table class="table" style="width:100%" id="table">
+                    <!-- table header -->
                     <thead>
                         <th>Тип</th>
                         <th>Наименование</th>
@@ -64,31 +59,10 @@
                             </td>
                         </tr>
                     </template>
+                    <!-- table rows -->
                     
                 </table>
-
                 
-                <!-- <div class="row-body">
-                    <span>Тип</span>
-                    <span>Наиминование</span>
-                    <span>Вес (в граммах)</span>
-                    <span>
-                        Убрать
-                    <span>
-                </div> -->
-
-                <!-- row template -->
-                <template id="rowTml">
-                    <div class="row-body">
-                        <span>TYPE</span>
-                        <span>NAME</span>
-                        <span id="weight">WEIGHT</span>
-                        <span>
-                            Убрать
-                        <span>
-                    </div>
-                </template>
-                <!-- table rows -->
             </section>
         </div>
 
