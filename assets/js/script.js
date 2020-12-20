@@ -1,3 +1,4 @@
+//Base of food
 const foodList = [
     //* 0 Каши
     {
@@ -152,12 +153,25 @@ const foodList = [
         ]
     },
 ]
+
+class Food {
+    constructor(type, name, weight, energy) {
+        this.type = type;
+        this.name = name;
+        this.weight = weight;
+        this.energy = energy;
+    }
+}
     
-//* variables
+//* DOM Elements
+const dailyTable = document.getElementById('dailyTable');
+const dailySum = document.getElementById('dailySum');
+
 const typeSel = document.getElementById('typeSel');
 const nameSel = document.getElementById('foodSel');
 const weightInp = document.getElementById('weightInp');
 const addBtn = document.getElementById('addBtn');
+const saveBtn = document.getElementById('saveBtn');
 
 const table = document.getElementById('table');
 const output = document.getElementById('output');
@@ -221,7 +235,8 @@ weightInp.addEventListener('input', () => {
     }
 });
 
-addBtn.addEventListener('click', (event) => {
+//? Table events
+addBtn.addEventListener('click', () => {
     const row = {
         type: foodList[typeSel.selectedIndex].type,
         name: foodList[typeSel.selectedIndex].list[nameSel.selectedIndex].name,
@@ -233,47 +248,126 @@ addBtn.addEventListener('click', (event) => {
 
     const newRow = document.getElementById('row-template').content.cloneNode(true);
 
+    const foodArr = localStorage.getItem('currentFoodArr') ? 
+        JSON.parse(localStorage.getItem('currentFoodArr')) : {list: [], sum: 0};
+
+    foodArr.list.push(row);
+    foodArr.sum = foodArr.sum ? 
+        foodArr.sum + row.energy : row.energy;
+
     newRow.getElementById('type').innerText = row.type;
     newRow.getElementById('name').innerText = row.name;
     newRow.getElementById('weight').innerText = `${row.weight}г.`;
     newRow.getElementById('energy').innerText = `(${row.energy}кКал)`;
 
-    table.appendChild(newRow);
+    
+    console.log(newRow);
 
-    const regular = /\(([^)]+)\)/;
-    const weightList = []
-    for (let energy of table.querySelectorAll('#energy')) {
-        weightList.push(parseInt(regular.exec(energy.innerText)[1]));
-    }
+    table.querySelector('tbody').appendChild(newRow);
 
-    if(weightList) {
-        let sum = 0;
-        for(let i = 0; i < weightList.length; i++) {
-            sum += weightList[i];
-        }
-        
-        output.innerText = ` ${sum} кКал`;
-    }
+    /* foodArr.list.push(row);
+    foodArr.sum = foodArr.sum ? 
+        foodArr.sum + row.energy : row.energy; */
+
+    console.log(foodArr);
+
+    output.innerText = ` ${foodArr.sum} кКал`;
+
+    localStorage.setItem('currentFoodArr', JSON.stringify(foodArr));
 
     addBtn.disabled = true;
 })
 
+
+//? remove position
 table.addEventListener('click', (event) => {
     const currentRow = event.target.closest('tr');
 
     if(currentRow) {
-        const regExp = /\d+/;
+        const foodArr = JSON.parse(localStorage.getItem('currentFoodArr'));
+        const index = currentRow.rowIndex - 1;
 
-        let sum = parseInt(output.innerText);
-        const en = currentRow.querySelector('#energy').innerText;
+        foodArr.sum -= foodArr.list[index].energy;
+        foodArr.list.splice(index, 1);
 
-        sum -= parseInt(regExp.exec(en))
-        if(sum <= 0) {
+        if(foodArr.sum <= 0) {
             output.innerText = "добавьте продукты";
         } else {
-            output.innerText = sum + ' кКал';
+            output.innerText = foodArr.sum + ' кКал';
         }
 
-        table.removeChild(currentRow);
+        localStorage.setItem('currentFoodArr', JSON.stringify(foodArr));
+        table.querySelector('tbody').removeChild(currentRow); 
     }
 });
+
+saveBtn.addEventListener('click', (event) => {
+    const dailyPlan = localStorage.getItem('dailyPlan') ? 
+        JSON.parse(localStorage.getItem('dailyPlan')) : [];
+    const foodArr = JSON.parse(localStorage.getItem('currentFoodArr'));
+
+    dailyPlan.push(foodArr);
+    localStorage.setItem('dailyPlan', JSON.stringify(dailyPlan));
+
+    table.querySelector('tbody').innerHTML = '';
+
+    //* Add daily table 
+    const newRow = document.getElementById('daily-template').content.cloneNode(true);
+
+    newRow.querySelector('#num').innerText = dailyPlan.indexOf(foodArr) + 1;
+    newRow.querySelector('#energy').innerText = foodArr.sum + ' кКал.';
+
+
+    //? clear section
+    dailyTable.querySelector('tbody').appendChild(newRow);
+    localStorage.setItem('currentFoodArr', '');
+    output.innerText = "добавьте продукты";
+
+})
+
+
+//* Calc daily
+const genderSel = document.getElementById('genderSel');
+const ageInp = document.getElementById('ageInp');
+const personWeightInp = document.getElementById('personWeightInp');
+const heightInp = document.getElementById('heightInp');
+const activitySel = document.getElementById('activitySel');
+const calcBtn = document.getElementById('calcBtn');
+
+calcBtn.addEventListener('click', () => {
+    let sum = 0;
+    let bmr = 0;
+    let activeLvl = 0;
+    if (genderSel.selectedIndex === 1) {
+        bmr = 10 * parseInt(personWeightInp.value) + 
+            6.25 * parseInt(heightInp.value) -
+            5 * parseInt(ageInp.value) + 5;
+    } else {
+        bmr = 10 * parseInt(personWeightInp.value) + 
+            6.25 * parseInt(heightInp.value) -
+            5 * parseInt(ageInp.value) - 161;
+    }
+
+    switch(activitySel.selectedIndex) {
+        case 1: activeLvl = 1.2; break;
+        case 2: activeLvl = 1.375; break;
+        case 3: activeLvl = 1.55; break;
+        case 4: activeLvl = 1.725; break;
+        case 5: activeLvl = 1.9; break;
+    }
+
+    sum = Math.round(bmr * activeLvl);
+
+    dailySum.innerText = `Для сохранения веса, в день требуется: ${sum}кКал.`;
+
+    localStorage.setItem('target', sum);
+})
+
+if(localStorage.getItem('target')) {
+    dailySum.innerText = `Для сохранения веса, в день требуется: ${localStorage.getItem('target')} кКал.`;
+} else {
+    dailySum.innerText = `Пожалуйста внесите данные`;
+}
+
+//*Page load code
+localStorage.setItem('currentFoodArr', '');

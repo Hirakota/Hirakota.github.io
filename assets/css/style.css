@@ -12,6 +12,8 @@ html {
 
 body {
     min-height: 100vh;
+
+    background-color: #fafafa;
 }
 
 :root {
@@ -35,13 +37,21 @@ body {
     max-width: 960px;
 }
 
-/* kal per day */
+/*! top section */
+
+.top-body {
+    display: grid;
+    grid-template-columns: 27rem minmax(40%, 100%);
+
+    grid-column-gap: 2rem;
+
+    margin: 2rem 0;
+}
+
+/* ? Target value */
 
 .target {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-
-    width: 40%;
+    width: 100%;
 
     border: 1px solid #bebebe;
     border-radius: .5rem;
@@ -69,6 +79,16 @@ body {
     padding: 1rem;
 }
 
+.target-value {
+    padding: 1rem;
+
+    border-radius: .5rem;
+    border: 1px solid #bebebe;
+
+    width: 100%;
+
+    margin-bottom: 1rem;
+}
 .target-grid {
     display: grid;
     grid-template-columns: repeat(4, 5rem);
@@ -81,14 +101,8 @@ body {
     align-items: center;
     justify-content: center;
 
-    padding: 1rem;
-
-    border-radius: .5rem;
-    border: 1px solid #bebebe;
-
-    margin-bottom: 1rem;
+    margin-bottom: 1rem;;
 }
-
 .target-input {
     width: 5rem;
     height: 2rem;
@@ -102,23 +116,97 @@ body {
 
     outline: none;
 }
-
 .target-input:disabled {
     cursor: not-allowed;
 }
-
 .target-input:focus {
     outline: none;
     border-color: var(--main-color);
 }
-
 .sum-btn {
     width: 100% !important;
 
     margin-bottom: 1rem;
 }
 
+.daily-sum {
+    width: 100%;
+
+    border: 1px solid var(--inp-border-color);
+    border-radius: .5rem;
+
+    padding: .5rem 1rem;
+}
+
+/*? Daily ration */
+.daily-ration {
+    border: 1px solid var(--inp-border-color);
+
+    border-radius: .5rem;
+}
+
+.daily-header {
+    line-height: 3rem;
+    background-color: var(--main-color);
+
+    color: white;
+
+    font-weight: bold;
+    text-align: center;
+
+    border-radius: .5rem .5rem 0 0;
+}
+
+.daily-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.daily-table thead {
+    border-bottom: 1px solid var(--inp-border-color);
+}
+
+.daily-table thead th{
+    line-height: 2.5rem;
+    color: #303030;
+}
+
+.daily-ration tr td {
+    padding: .4rem;
+
+    text-align: center;
+
+    border-bottom: 1px solid var(--inp-border-color);
+}
+
+.daily-btn {
+    cursor: pointer;
+
+    width: 90%;
+
+    padding: .4rem;
+
+    outline: none;
+    border: none;
+    border-radius: .5rem;
+
+    background-color: var(--main-color);
+    color: white;
+
+    transition: .2s ease-in-out;
+}
+.daily-btn:hover {
+    background-color: var(--hover-color);
+}
+
 /*! food list frame */
+.food-list {
+    padding: 1rem;
+
+    border: 1px solid var(--inp-border-color);
+    border-radius: .5rem;
+}
+
 .food-input-body {
     display: grid;
     grid-template-columns: repeat(3, 19rem);
@@ -171,7 +259,8 @@ body {
     border-color: var(--main-color);
 }
 
-/*! second frame */
+
+/*? second frame */
 .food-main-body {
     display: grid;
     grid-template-columns: 18rem 22rem 18rem;
@@ -213,7 +302,15 @@ body {
 }
 
 .final-sum {
+    align-self: center;
+
+    line-height: 3rem;
     justify-self: start;
+
+    padding: 0 1rem;
+
+    border: 1px solid var(--main-color);
+    border-radius: .5rem;
 }
 
 /** MAIN-TABLE */
