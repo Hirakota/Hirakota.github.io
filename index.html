@@ -5,65 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
     <div class="wrapper">
 
-        <!-- Header -->
-        <div class="container">
-            <header class="header">
-                <div class="header-input-body">
-                    <select class="header-select" name="" id="typeSel">
-                        <!-- Types -->
+        <div class="target">
+            <div class="target-top">
+                <span>Расчет суточной нормы калорий</span>
+            </div>
+            <div class="target-body">
+                <div class="target-grid">
+                    <span>Пол:</span>
+                    <select class="target-input" id="gender">
+                        <option hidden>Пол</option>
+                        <option value="0">М</option>
+                        <option value="1">Ж</option>
                     </select>
-                    <select class="header-select" name="" id="foodSel">
-                        <!-- Element of type-->
-                    </select>
-                    <input class="header-input" type="text" id="weightInp" placeholder="Введите вес">
+
+                    <span>Возраст:</span>
+                    <input  class="target-input" type="number" placeholder="Возр." id="age">
+                
+                    <span>Вес (кг):</span>
+                    <input  class="target-input" type="number" placeholder="Вес" id="weight">
+    
+                    <span>Рост (см):</span>
+                    <input  class="target-input" type="number" placeholder="Рост" id="height">
                 </div>
-                <div class="header-main-body">
-                    <div class="space"></div>
-                    <button class="add-btn" id="addBtn">Добавить в рацион</button>
-                    <div class="final-sum">
-                        <span>
-                            Итог: 
-                        </span>
-                        <span id="output">
-                            добавьте продукты
-                        </span>
-                    </div>
-                </div>
-            </header>
+
+                <button class="add-btn sum-btn">Рассчитать</button>
+            </div>
         </div>
 
-        <div class="container">
-            <section class="table-section">
-                <table class="table" style="width:100%" id="table">
-                    <!-- table header -->
-                    <thead>
-                        <th>Тип</th>
-                        <th>Наименование</th>
-                        <th>Вес</th>
-                    </thead>
-
-                    <template id="row-template">
-                        <tr>
-                            <td id="type">Тип</td>
-                            <td id="name">Наименование</th>
-                            <td>
-                                <span id="weight">Вес</span> 
-                                <span id="energy">(кКал)</span>
-                            </td>
-                        </tr>
-                    </template>
-                    <!-- table rows -->
-                    
-                </table>
-                
-            </section>
+        <!-- Food list -->
+        <div class="food-list">
+            <div class="container">
+                <section class="food">
+                    <div class="food-input-body">
+                        <select class="food-select" name="" id="typeSel">
+                            <!-- Types -->
+                        </select>
+                        <select class="food-select" name="" id="foodSel">
+                            <!-- Element of type-->
+                        </select>
+                        <input class="food-input" type="text" id="weightInp" placeholder="Выберите продукт">
+                    </div>
+                    <div class="food-main-body">
+                        <div class="space"></div>
+                        <button class="add-btn" id="addBtn">Добавить в рацион</button>
+                        <div class="final-sum">
+                            <span>
+                                Итог: 
+                            </span>
+                            <span id="output">
+                                добавьте продукты
+                            </span>
+                        </div>
+                    </div>
+                </food>
+            </div>
+            <div class="container">
+                <section class="table-section">
+                    <table class="table" style="width:100%" id="table">
+                        <!-- table food -->
+                        <thead>
+                            <th>Тип</th>
+                            <th>Наименование</th>
+                            <th>Вес</th>
+                        </thead>
+    
+                        <template id="row-template">
+                            <tr>
+                                <td id="type">Тип</td>
+                                <td id="name">Наименование</th>
+                                <td>
+                                    <span id="weight">Вес</span> 
+                                    <span id="energy">(кКал)</span>
+                                </td>
+                            </tr>
+                        </template>
+                        <!-- table rows -->
+                    </table>
+                </section>
+            </div>
         </div>
 
     </div>
