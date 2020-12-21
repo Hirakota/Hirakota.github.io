@@ -16,7 +16,7 @@
                     <span>Расчет суточной нормы калорий</span>
                 </div>
                 <div class="target-body">
-                    <div class="target-value">
+                    <div class="target-value" id="targetInps">
                         <div class="target-grid">
                             <span>Пол:</span>
                             <select class="target-input" id="genderSel">
@@ -35,7 +35,7 @@
                             <input  class="target-input" type="number" placeholder="Рост" id="heightInp">
                         </div>
                         <select name="" id="activitySel" class="target-input" style="width: 100%;">
-                            <option value="" class="" hidden>Выбреите уровень активности</option>
+                            <option value="" class="" hidden>Выберите уровень активности</option>
                             <option value="" class="">нет физической нагрузки</option>
                             <option value="" class="">спорт 1-3 раза в неделю</option>
                             <option value="" class="">спорт 4-5 раз в неделю</option>
@@ -43,8 +43,7 @@
                             <option value="" class="">физический труд и ежидневные занятия спортом</option>
                         </select>
                     </div>
-    
-                    <button class="add-btn sum-btn" id="calcBtn">Рассчитать</button>
+                    <button class="add-btn sum-btn" id="calcBtn" disabled>Рассчитать</button>
 
                     <div class="daily-sum">
                         <span id="dailySum"></span>
@@ -54,7 +53,7 @@
 
             <div class="daily-ration">
                 <div class="daily-header">
-                   <span>Дневной план рациона</span>
+                   <span>Дневной план питания</span>
                 </div>
 
                 <table class="daily-table" id="dailyTable">
@@ -95,7 +94,8 @@
                         <input class="food-input" type="text" id="weightInp" placeholder="Выберите продукт" disabled>
                     </div>
                     <div class="food-main-body">
-                        <button class="add-btn" id="addBtn" disabled>Добавить в рацион</button>
+                        <button class="add-btn" id="addBtn" disabled>Добавить в план</button>
+                        <button class="add-btn" id="saveChangeBtn" hidden>Сохранить</button>
                         
                         <div class="food-controller">
                             <div class="final-sum">
@@ -106,7 +106,6 @@
                                     добавьте продукты
                                 </span>
                             </div>
-                            <button class="add-btn short" id="saveChangeBtn" hidden>Сохранить</button>
                             <button class="add-btn short" id="saveListBtn" disabled>Добавить</button>
                         </div>
                         
@@ -143,5 +142,6 @@
 
     </div>
 </body>
+<script src="assets/js/data.json"></script>
 <script src="assets/js/script.js"></script>
 </html>

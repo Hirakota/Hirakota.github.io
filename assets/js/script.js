@@ -1,159 +1,21 @@
 //Base of food
-const foodList = [
-    //* 0 Каши
-    {
-        type: "Каши",
-        list: [
-            {
-                name: "Гречневая каша",
-                value: 137
-            },
-            {
-                name: "Манная каша",
-                value: 77
-            },
-            {
-                name: "Овсяная каша",
-                value: 93
-            },
-            {
-                name: "Рисовая каша",
-                value: 79
-            },
-            {
-                name: "Кукурузные хлопья",
-                value: 372
-            },
-            {
-                name: "Овсяные хлопья",
-                value: 358
-            },
-            {
-                name: "Перловая каша",
-                value: 102
-            },
-            {
-                name: "Пшенная каша",
-                value: 92
-            }
-        ]
-    },
-    //* 1 Овощи
-    {
-        type: "Овощи",
-        list: [
-            {
-                name: "Баклажаны",
-                value: 22
-            },
-            {
-                name: "Бобы",
-                value: 59
-            },
-            {
-                name: "Брюква",
-                value: 38
-            },
-            {
-                name: "Горошек зеленый",
-                value: 75
-            },
-            {
-                name: "Кабачки",
-                value: 30
-            },
-            {
-                name: "Капуста",
-                value: 32
-            },
-            {
-                name: "Картофель вареный",
-                value: 80
-            },
-            {
-                name: "Картофель жареный",
-                value: 198
-            },
-            {
-                name: "Морковь",
-                value: 29
-            },
-            {
-                name: "Салат",
-                value: 15
-            },
-            {
-                name: "Фасоль",
-                value: 36
-            },
-        ]
-    },
-    //* 2 Мясо и птица
-    {
-        type: "Мясо, птица",
-        list: [
-            {
-                name: "Баранина",
-                value: 201
-            },
-            {
-                name: "Говядина",
-                value: 191
-            },
-            {
-                name: "Говяжья Печень",
-                value: 100
-            },
-            {
-                name: "Говяжий Язык",
-                value: 160
-            },
-            {
-                name: "Кролик",
-                value: 197
-            },
-            {
-                name: "Свинина нежирная",
-                value: 318
-            },
-            {
-                name: "Свинина жирная",
-                value: 484
-            },
-            {
-                name: "Свиная печень",
-                value: 105
-            },
-            {
-                name: "Телятина",
-                value: 91
-            },
-            {
-                name: "Индейка",
-                value: 192
-            },
-            {
-                name: "Курица",
-                value: 161
-            },
-            {
-                name: "Утка",
-                value: 348
-            }
-        ]
-    },
-    //* 3 Рыба
-    {
-        type: "Рыба и морепродукты",
-        list: [
-            {
-                name: "Кальмар",
-                value: 77
-            },
-        ]
-    },
-]
+let foodList;
+fetch('/assets/js/data.json')
+.then(response => response.json())
+.then(data => {
+    foodList = data;
 
+    //* Select types render
+    const selFrm = new DocumentFragment();
+    selFrm.appendChild(defaultOption);
+    foodList.forEach((value, index) => {
+        const newOption = document.createElement('option');
+        newOption.value = index;
+        newOption.innerText = value.type;
+        selFrm.appendChild(newOption);
+    })
+    typeSel.appendChild(selFrm);
+});
 class Food {
     constructor(type, name, weight, energy) {
         this.type = type;
@@ -170,8 +32,8 @@ const dailySum = document.getElementById('dailySum');
 const typeSel = document.getElementById('typeSel');
 const nameSel = document.getElementById('foodSel');
 const weightInp = document.getElementById('weightInp');
-const addBtn = document.getElementById('addBtn');
-const saveListBtn = document.getElementById('saveListBtn');
+const saveListBtn = document.getElementById('addBtn');
+const addBtn = document.getElementById('saveListBtn');
 const saveChangeBtn = document.getElementById('saveChangeBtn');
 
 const table = document.getElementById('table');
@@ -182,7 +44,7 @@ const defaultOption = document.createElement('option');
 defaultOption.innerText = "Выберите позицию...";
 defaultOption.id = "del";
 
-//* Select types render
+/* //* Select types render
 const selFrm = new DocumentFragment();
 selFrm.appendChild(defaultOption);
 foodList.forEach((value, index) => {
@@ -191,7 +53,7 @@ foodList.forEach((value, index) => {
     newOption.innerText = value.type;
     selFrm.appendChild(newOption);
 })
-typeSel.appendChild(selFrm);
+typeSel.appendChild(selFrm); */
 
 //* Event for type Select and render name Select
 typeSel.addEventListener('change', (event) => {
@@ -428,18 +290,48 @@ saveChangeBtn.addEventListener('click', () => {
     saveListBtn.hidden = false;
 
     localStorage.setItem('dailyPlan', JSON.stringify(dailyPlan));
+    localStorage.setItem('currentFoodArr', '');
+
+    output.innerText = 'добавьте продукты';
 
     table.querySelector('tbody').innerHTML = '';
     renderDailyPlan();
 });
 
 
+//* Rule for daily
+const targetInps = document.getElementById('targetInps');
+
+targetInps.addEventListener('input', (event) => {
+    const closestInp = event.target.closest('input') ? event.target.closest('input') : event.target.closest('select');
+
+    /* genderSel
+    ageInp
+    personWeightInp
+    heightInp
+    activitySel */
+
+    if (closestInp) {
+        if (
+            genderSel.selectedIndex != 0 &&
+            ageInp.value &&
+            personWeightInp.value &&
+            heightInp.value &&
+            activitySel.selectedIndex != 0
+        ) {
+            calcBtn.disabled = false;
+        } else {
+            calcBtn.disabled = true;
+        }
+    }
+})
+
+//*Page load code
 if(localStorage.getItem('target')) {
     dailySum.innerText = `Для сохранения веса, в день требуется: ${localStorage.getItem('target')} кКал.`;
 } else {
     dailySum.innerText = `Пожалуйста внесите данные`;
 }
 
-//*Page load code
 localStorage.setItem('currentFoodArr', '');
 renderDailyPlan();
