@@ -171,14 +171,11 @@ const typeSel = document.getElementById('typeSel');
 const nameSel = document.getElementById('foodSel');
 const weightInp = document.getElementById('weightInp');
 const addBtn = document.getElementById('addBtn');
-const saveBtn = document.getElementById('saveBtn');
+const saveListBtn = document.getElementById('saveListBtn');
+const saveChangeBtn = document.getElementById('saveChangeBtn');
 
 const table = document.getElementById('table');
 const output = document.getElementById('output');
-
-nameSel.disabled = true;
-weightInp.disabled = true;
-addBtn.disabled = true;
 
 //?First elemnt in option
 const defaultOption = document.createElement('option');
@@ -260,22 +257,14 @@ addBtn.addEventListener('click', () => {
     newRow.getElementById('weight').innerText = `${row.weight}г.`;
     newRow.getElementById('energy').innerText = `(${row.energy}кКал)`;
 
-    
-    console.log(newRow);
-
     table.querySelector('tbody').appendChild(newRow);
-
-    /* foodArr.list.push(row);
-    foodArr.sum = foodArr.sum ? 
-        foodArr.sum + row.energy : row.energy; */
-
-    console.log(foodArr);
 
     output.innerText = ` ${foodArr.sum} кКал`;
 
     localStorage.setItem('currentFoodArr', JSON.stringify(foodArr));
 
     addBtn.disabled = true;
+    saveListBtn.disabled = false;
 })
 
 
@@ -299,9 +288,13 @@ table.addEventListener('click', (event) => {
         localStorage.setItem('currentFoodArr', JSON.stringify(foodArr));
         table.querySelector('tbody').removeChild(currentRow); 
     }
+
+    if (table.querySelector('tbody').querySelectorAll('tr').length === 0) {
+        saveListBtn.disabled = true;
+    }
 });
 
-saveBtn.addEventListener('click', (event) => {
+saveListBtn.addEventListener('click', (event) => {
     const dailyPlan = localStorage.getItem('dailyPlan') ? 
         JSON.parse(localStorage.getItem('dailyPlan')) : [];
     const foodArr = JSON.parse(localStorage.getItem('currentFoodArr'));
@@ -323,6 +316,7 @@ saveBtn.addEventListener('click', (event) => {
     localStorage.setItem('currentFoodArr', '');
     output.innerText = "добавьте продукты";
 
+    saveListBtn.disabled = true;
 })
 
 
@@ -363,6 +357,83 @@ calcBtn.addEventListener('click', () => {
     localStorage.setItem('target', sum);
 })
 
+function renderDailyPlan() {
+    const dailyFoodArr = JSON.parse(localStorage.getItem('dailyPlan'));
+    dailyTable.querySelectorAll('tbody').innerHTML = '';
+
+    const frm = new DocumentFragment();
+
+    let i = 1;
+    dailyTable.querySelector('tbody').innerHTML = '';
+    for (let row of dailyFoodArr) {
+        const newRow = document.getElementById('daily-template').content.cloneNode(true);
+
+        newRow.querySelector('#num').innerText = i++;
+        newRow.querySelector('#energy').innerText = row.sum + ' кКал.';
+
+        frm.appendChild(newRow);
+    }
+    dailyTable.querySelector('tbody').appendChild(frm);
+}
+
+dailyTable.addEventListener('click', (event) => {
+    const row = event.target.closest('tr');
+    const edit = event.target.closest('#dailyEditBtn');
+    const del = event.target.closest('#dailyDelBtn');
+
+    const dailyFoodArr = JSON.parse(localStorage.getItem('dailyPlan'));
+    if (del) {
+        dailyFoodArr.splice(row.rowIndex - 1, 1);
+        localStorage.setItem('dailyPlan', JSON.stringify(dailyFoodArr));
+
+        renderDailyPlan();
+    }
+
+    if (edit) {
+        table.querySelector('tbody').innerHTML = '';
+
+        const currentFoodArr = dailyFoodArr[row.rowIndex - 1];
+
+        const frm = new DocumentFragment();
+        for(let row of currentFoodArr.list) {
+            const newRow = document.getElementById('row-template').content.cloneNode(true);
+
+            newRow.getElementById('type').innerText = row.type;
+            newRow.getElementById('name').innerText = row.name;
+            newRow.getElementById('weight').innerText = `${row.weight}г.`;
+            newRow.getElementById('energy').innerText = `(${row.energy}кКал)`;
+
+            frm.appendChild(newRow);
+        }
+        table.querySelector('tbody').appendChild(frm);
+
+        sessionStorage.setItem('editId', row.rowIndex - 1);
+        localStorage.setItem('currentFoodArr', JSON.stringify(currentFoodArr));
+        saveChangeBtn.hidden = false;
+        saveListBtn.hidden = true;
+
+
+        output.innerText = currentFoodArr.sum + ' кКал.';
+    }
+});
+
+saveChangeBtn.addEventListener('click', () => {
+    const dailyPlan = JSON.parse(localStorage.getItem('dailyPlan'));
+    const currentFoodArr = JSON.parse(localStorage.getItem('currentFoodArr'));
+    const index = sessionStorage.getItem('editId');
+
+    dailyPlan[index] = currentFoodArr;
+
+    saveChangeBtn.hidden = true;
+    saveListBtn.hidden = false;
+
+    localStorage.setItem('dailyPlan', JSON.stringify(dailyPlan));
+
+    table.querySelector('tbody').innerHTML = '';
+    renderDailyPlan();
+});
+
+
 if(localStorage.getItem('target')) {
     dailySum.innerText = `Для сохранения веса, в день требуется: ${localStorage.getItem('target')} кКал.`;
 } else {
@@ -371,3 +442,4 @@ if(localStorage.getItem('target')) {
 
 //*Page load code
 localStorage.setItem('currentFoodArr', '');
+renderDailyPlan();
