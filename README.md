@@ -1,2 +1,0 @@
-# CourseWork
-Course work
